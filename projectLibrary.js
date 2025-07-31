@@ -32,10 +32,11 @@ const addBookToLibrary = async (event) => {
     document.getElementById("title").value,
     document.getElementById("author").value,
     document.getElementById("pages").value,
-    document.getElementById("hasRead").value
+    document.getElementById("hasRead").checked
   );
   myLibrary.push(tempBook);
   renderRow(tempBook)
+  console.log(myLibrary)
   return true;
 };
 
@@ -43,11 +44,12 @@ function removeBookToLibrary(ID) {
   const index = myLibrary.findIndex((book) => book.id === ID);
   if (index > -1) {
     // only splice array when item is found
-    array.splice(index, 1); // 2nd parameter means remove one item only
+    myLibrary.splice(index, 1); // 2nd parameter means remove one item only
   }
   // remove row
   const row = document.getElementById(ID)
   row.remove()
+  console.log(myLibrary)
 }
 
 function renderRow(tempBook){
@@ -73,6 +75,7 @@ function renderRow(tempBook){
         const isChecked = event.target.checked;
         let book = myLibrary.find(o => o.id === ID);
         book.updateRead(isChecked)
+        console.log(myLibrary)
     });
 
     readCell.append(readCheckBox)
@@ -84,6 +87,7 @@ function renderRow(tempBook){
     removeButton.addEventListener("click", () => {
         removeBookToLibrary(ID)
     });
+    removeCell.appendChild(removeButton)
 
     row.appendChild(infoCell);
     row.appendChild(readCell);
