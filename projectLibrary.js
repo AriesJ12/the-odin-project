@@ -17,17 +17,26 @@ function Book(id, title, author, pages, hasRead) {
     return `${this.title} by ${this.author}, ${this.pages} pages, ${readText}`;
   };
 
-  this.updateRead = function (hasRead){
-    this.hasRead = hasRead
-  }
+  this.updateRead = function (hasRead) {
+    this.hasRead = hasRead;
+  };
 }
 
-function addBookToLibrary(title, author, pages, hasRead) {
+const addBookToLibrary = async (event) => {
   // take params, create a book then store it in the array
+  event.preventDefault();
+  console.log("123");
   const ID = crypto.randomUUID();
-  const tempBook = new Book(ID, title, author, pages, hasRead);
+  const tempBook = new Book(
+    ID,
+    document.getElementById("title").value,
+    document.getElementById("author").value,
+    document.getElementById("pages").value,
+    document.getElementById("hasRead").value
+  );
   myLibrary.push(tempBook);
-}
+  return true;
+};
 
 function removeBookToLibrary(ID) {
   const index = myLibrary.findIndex((book) => book.id === ID);
