@@ -52,7 +52,7 @@ function removeBookToLibrary(ID) {
 
 function renderRow(tempBook){
     const INFO = tempBook.info()
-    const HAS_READ = tempBook.hasRead()
+    const HAS_READ = tempBook.hasRead
     const ID = tempBook.id
     const TBODY = document.getElementById("tableBookBody")
     
