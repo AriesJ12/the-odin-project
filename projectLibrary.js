@@ -71,7 +71,8 @@ function renderRow(tempBook){
 
     readCheckBox.addEventListener("change", (event) => {
         const isChecked = event.target.checked;
-        
+        let book = myLibrary.find(o => o.id === ID);
+        book.updateRead(isChecked)
     });
 
     readCell.append(readCheckBox)
