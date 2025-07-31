@@ -35,6 +35,7 @@ const addBookToLibrary = async (event) => {
     document.getElementById("hasRead").value
   );
   myLibrary.push(tempBook);
+  renderRow(tempBook)
   return true;
 };
 
@@ -44,4 +45,48 @@ function removeBookToLibrary(ID) {
     // only splice array when item is found
     array.splice(index, 1); // 2nd parameter means remove one item only
   }
+  // remove row
+  const row = document.getElementById(ID)
+  row.remove()
+}
+
+function renderRow(tempBook){
+    const INFO = tempBook.info()
+    const HAS_READ = tempBook.hasRead()
+    const ID = tempBook.id
+    const TBODY = document.getElementById("tableBookBody")
+    
+    const row = document.createElement("tr");
+    row.id = ID
+
+    const infoCell = document.createElement("td");
+    infoCell.textContent = INFO
+
+    const readCell = document.createElement("td");
+    const readCheckBox = document.createElement("input")
+    readCheckBox.type = "checkbox"
+    readCheckBox.name = `${ID}_read`;
+    readCheckBox.id = `${ID}_read`;
+    readCheckBox.checked = HAS_READ;
+
+    readCheckBox.addEventListener("change", (event) => {
+        const isChecked = event.target.checked;
+        
+    });
+
+    readCell.append(readCheckBox)
+
+    const removeCell = document.createElement("td");
+    const removeButton = document.createElement("button");
+    removeButton.type = "button"
+    removeButton.textContent = "Remove";
+    removeButton.addEventListener("click", () => {
+        removeBookToLibrary(ID)
+    });
+
+    row.appendChild(infoCell);
+    row.appendChild(readCell);
+    row.appendChild(removeCell);
+
+    TBODY.appendChild(row);
 }
