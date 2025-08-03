@@ -64,7 +64,7 @@ function Gameboard() {
     //check anti diag (thanks rampion)
     if (x + y == gameSize - 1) {
       for (let i = 0; i < gameSize; i++) {
-        if (board[i][n - 1 - i] != playedLetter) break;
+        if (board[i][gameSize - 1 - i] != playedLetter) break;
         if (i == gameSize - 1) {
           //report win for s
           return winDrawLose.Win;
