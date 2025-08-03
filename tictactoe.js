@@ -30,6 +30,8 @@ function Gameboard() {
 
     if (board[x][y] == State.Blank) {
       board[x][y] = playedLetter;
+    } else {
+      return false
     }
     moveCount++;
 
@@ -92,13 +94,8 @@ function Gameboard() {
 
 function Player(name, letter) {
   let assignLetter = letter;
-  function changeLetter(letter) {
-    assignLetter = letter;
-  }
 
-  function announceWin() {
-    console.log(`Player ${name} wins`);
-  }
+  
 }
 
 const game = Gameboard(gameSize);
