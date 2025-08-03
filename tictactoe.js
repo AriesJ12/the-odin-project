@@ -23,9 +23,9 @@ function Gameboard() {
     return true;
   }
 
-  function inputPlay(x, y, letter) {
+  function inputPlay(x, y, playedLetter) {
     if (board[x][y] == State.Blank) {
-      board[x][y] = letter;
+      board[x][y] = playedLetter;
     }
     moveCount++;
 
@@ -33,7 +33,7 @@ function Gameboard() {
 
     //check col
     for (let i = 0; i < gameSize; i++) {
-      if (board[x][i] != s) break;
+      if (board[x][i] != playedLetter) break;
       if (i == gameSize - 1) {
         //report win for s
         return winDrawLose.Win;
@@ -42,7 +42,7 @@ function Gameboard() {
 
     //check row
     for (let i = 0; i < gameSize; i++) {
-      if (board[i][y] != s) break;
+      if (board[i][y] != playedLetter) break;
       if (i == gameSize - 1) {
         //report win for s
         return winDrawLose.Win;
@@ -53,7 +53,7 @@ function Gameboard() {
     if (x == y) {
       //we're on a diagonal
       for (let i = 0; i < gameSize; i++) {
-        if (board[i][i] != s) break;
+        if (board[i][i] != playedLetter) break;
         if (i == gameSize - 1) {
           //report win for s
           return winDrawLose.Win;
@@ -64,7 +64,7 @@ function Gameboard() {
     //check anti diag (thanks rampion)
     if (x + y == gameSize - 1) {
       for (let i = 0; i < gameSize; i++) {
-        if (board[i][n - 1 - i] != s) break;
+        if (board[i][n - 1 - i] != playedLetter) break;
         if (i == gameSize - 1) {
           //report win for s
           return winDrawLose.Win;
