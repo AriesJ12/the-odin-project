@@ -5,17 +5,26 @@ const winDrawLose = Object.freeze({
 });
 
 const State = Object.freeze({
-    Blank: "",
-    X: "X",
-    O: "O",
+  Blank: "",
+  X: "X",
+  O: "O",
 });
 
-const gameSize = 3
+const gameSize = 3;
 
 function Gameboard(size) {
   const gameSize = size;
-  let board = resetBoard();
+  let board = Array.from(Array(gameSize), () =>
+    new Array(gameSize).fill(State.Blank)
+  );
   let moveCount = 0;
+  function resetBoard() {
+    board = Array.from(Array(gameSize), () =>
+      new Array(gameSize).fill(State.Blank)
+    );
+    return true;
+  }
+
   function inputPlay(x, y, letter) {
     if (board[x][y] == State.Blank) {
       board[x][y] = letter;
@@ -72,12 +81,6 @@ function Gameboard(size) {
     }
   }
 
-  function resetBoard() {
-    return Array.from(Array(gameSize), () =>
-      new Array(gameSize).fill(State.Blank)
-    );
-  }
-
   return { inputPlay, resetBoard };
 }
 
@@ -92,5 +95,9 @@ function Player(name, letter) {
   }
 }
 
-const game = new Gameboard(gameSize)
-game.inputPlay()
+const game = Gameboard(gameSize);
+// players, can add option for what player state
+const player1 = Player(1, State.X);
+const player2 = Player(2, State.O);
+
+
