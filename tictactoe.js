@@ -24,6 +24,10 @@ function Gameboard() {
   }
 
   function inputPlay(x, y, playedLetter) {
+    if (!isValidInput(x,y)){
+      throw Error("Input Out of Bounds") 
+    }
+
     if (board[x][y] == State.Blank) {
       board[x][y] = playedLetter;
     }
@@ -79,7 +83,11 @@ function Gameboard() {
     }
   }
 
-  return { inputPlay, resetBoard };
+  function isValidInput(x, y){
+    return x < gameSize || y < gameSize || x > 0 || y > 0
+  }
+
+  return { inputPlay, resetBoard};
 }
 
 function Player(name, letter) {
