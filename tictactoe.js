@@ -10,10 +10,11 @@ const State = Object.freeze({
   O: "O",
 });
 
+//game size is 2d, so its gameSize x gameSize
 const gameSize = 3;
 
-function Gameboard(size) {
-  const gameSize = size;
+function Gameboard() {
+  const gameSize = gameSize;
   let board = Array.from(Array(gameSize), () =>
     new Array(gameSize).fill(State.Blank)
   );
@@ -34,18 +35,18 @@ function Gameboard(size) {
     //check end conditions
 
     //check col
-    for (let i = 0; i < n; i++) {
+    for (let i = 0; i < gameSize; i++) {
       if (board[x][i] != s) break;
-      if (i == n - 1) {
+      if (i == gameSize - 1) {
         //report win for s
         return winDrawLose.Win;
       }
     }
 
     //check row
-    for (let i = 0; i < n; i++) {
+    for (let i = 0; i < gameSize; i++) {
       if (board[i][y] != s) break;
-      if (i == n - 1) {
+      if (i == gameSize - 1) {
         //report win for s
         return winDrawLose.Win;
       }
@@ -54,9 +55,9 @@ function Gameboard(size) {
     //check diag
     if (x == y) {
       //we're on a diagonal
-      for (let i = 0; i < n; i++) {
+      for (let i = 0; i < gameSize; i++) {
         if (board[i][i] != s) break;
-        if (i == n - 1) {
+        if (i == gameSize - 1) {
           //report win for s
           return winDrawLose.Win;
         }
@@ -64,10 +65,10 @@ function Gameboard(size) {
     }
 
     //check anti diag (thanks rampion)
-    if (x + y == n - 1) {
-      for (let i = 0; i < n; i++) {
+    if (x + y == gameSize - 1) {
+      for (let i = 0; i < gameSize; i++) {
         if (board[i][n - 1 - i] != s) break;
-        if (i == n - 1) {
+        if (i == gameSize - 1) {
           //report win for s
           return winDrawLose.Win;
         }
@@ -75,7 +76,7 @@ function Gameboard(size) {
     }
 
     //check draw
-    if (moveCount == Math.pow(n, 2) - 1) {
+    if (moveCount == Math.pow(gameSize, 2) - 1) {
       //report draw
       winDrawLose.Draw;
     }
