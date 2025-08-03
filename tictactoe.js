@@ -84,7 +84,7 @@ function Gameboard() {
   }
 
   function isValidInput(x, y){
-    return x < gameSize || y < gameSize || x > 0 || y > 0
+    return (x >= 0 && x < gameSize) && (y >= 0 && y < gameSize);
   }
 
   return { inputPlay, resetBoard};
