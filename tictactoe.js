@@ -75,7 +75,7 @@ function Gameboard() {
     //check draw
     if (moveCount == Math.pow(gameSize, 2) - 1) {
       //report draw
-      winDrawLose.Draw;
+      return winDrawLose.Draw;
     }
   }
 
