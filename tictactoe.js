@@ -1,14 +1,17 @@
-const winDrawLose = Object.freeze({
+const gameCondition = Object.freeze({
+  InPlay: 2,
   Win: 1,
   Draw: 0,
   Lose: -1,
 });
-
+// a button/div/position possible values
 const State = Object.freeze({
-  Blank: "",
+  Blank: " ",
   X: "X",
   O: "O",
 });
+
+const NUM_PLAYERS = 2
 
 function Gameboard() {
   const gameSize = 3;
@@ -42,7 +45,7 @@ function Gameboard() {
       if (board[x][i] != playedLetter) break;
       if (i == gameSize - 1) {
         //report win for s
-        return winDrawLose.Win;
+        return gameCondition.Win;
       }
     }
 
@@ -51,7 +54,7 @@ function Gameboard() {
       if (board[i][y] != playedLetter) break;
       if (i == gameSize - 1) {
         //report win for s
-        return winDrawLose.Win;
+        return gameCondition.Win;
       }
     }
 
@@ -62,7 +65,7 @@ function Gameboard() {
         if (board[i][i] != playedLetter) break;
         if (i == gameSize - 1) {
           //report win for s
-          return winDrawLose.Win;
+          return gameCondition.Win;
         }
       }
     }
@@ -73,7 +76,7 @@ function Gameboard() {
         if (board[i][gameSize - 1 - i] != playedLetter) break;
         if (i == gameSize - 1) {
           //report win for s
-          return winDrawLose.Win;
+          return gameCondition.Win;
         }
       }
     }
@@ -81,8 +84,10 @@ function Gameboard() {
     //check draw
     if (moveCount == Math.pow(gameSize, 2) - 1) {
       //report draw
-      return winDrawLose.Draw;
+      return gameCondition.Draw;
     }
+
+    return gameCondition.InPlay
   }
 
   function isValidInput(x, y){
@@ -94,13 +99,30 @@ function Gameboard() {
 
 function Player(name, letter) {
   let assignLetter = letter;
-
-  
+  let score = 0;
+  function announceWinner(){
+    score++
+  }
+  return {announceWinner, score, assignLetter}
 }
 
 const game = Gameboard(gameSize);
 // players, can add option for what player state
-const player1 = Player(1, State.X);
-const player2 = Player(2, State.O);
+const players = [Player(1, State.X), Player(2, State.O)]
+let turn = 0
 
 
+// check game condition
+while (true){
+  // reset turn
+  if (turn > players.length) {
+    turn = 0
+  }
+  turn++
+  // get player n inputs
+  // input moves
+  if(game.inputPlay(#, #, players[turn].assignLetter) !== gameCondition.InPlay)
+  {
+    break
+  }
+}
