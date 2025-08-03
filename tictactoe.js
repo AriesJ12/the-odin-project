@@ -8,7 +8,9 @@ const State = Object.freeze({
     Blank: "",
     X: "X",
     O: "O",
-  });
+});
+
+const gameSize = 3
 
 function Gameboard(size) {
   const gameSize = size;
@@ -90,9 +92,5 @@ function Player(name, letter) {
   }
 }
 
-function handlePlay(){
-    const player1 = new Player(1, State.X)
-    const player2 = new Player(2, State.O)
-
-    
-}
+const game = new Gameboard(gameSize)
+game.inputPlay()
