@@ -10,11 +10,8 @@ const State = Object.freeze({
   O: "O",
 });
 
-//game size is 2d, so its gameSize x gameSize
-const gameSize = 3;
-
 function Gameboard() {
-  const gameSize = gameSize;
+  const gameSize = 3;
   let board = Array.from(Array(gameSize), () =>
     new Array(gameSize).fill(State.Blank)
   );
