@@ -1,0 +1,109 @@
+I'm slightly unclear what you mean by "factory function" — whether you mean a traditional JavaScript constructor function that gets called as new Person(), or a function that returns an object (literal?) that gets called as Person.
+
+If the former, I'll address it below. If the latter, then read on. Either way, I think the big reason to recommend classes is that they probably do the right thing with less syntactic noise.
+
+Classes vs Factories
+Consider a factory function like
+
+export function Person(name, age, gender) {
+    return { name, age, gender };
+}
+(using the newer shorthand object notation). So we can instantiate an object as
+
+let alice = Person('Alice', 44, 'female');
+For one, we can't use instanceof.
+
+alice instanceof Person  // false
+Small, but that's one difference — there's nothing tying the values back to the factory.
+
+But now consider if we wanted to include a method in our object, e.g., format to print a description of the person. We might be tempted to say
+
+export function Person(name, age, gender) {
+    return {
+        name,
+        age,
+        gender,
+        format() {
+            return `${this.name} is ${this.age} years old and ${this.gender}.`
+        }
+    };
+}
+This will function correctly, but there's a problem.
+
+let alice = Person('Alice', 44, 'female');
+let bob = Person('Bob', 44, 'male');
+
+alice.format === bob.format  // false
+They have different function instances for their format methods — in fact every object returned by Person will have a fresh function created for format. Those are a complete waste of memory, because we could use a single function instance for all of them. But it's messier to say.
+
+function format() {
+    return `${this.name} is ${this.age} years old and ${this.gender}.`
+}
+
+export function Person(name, age, gender) {
+    return {
+        name,
+        age,
+        gender,
+        format
+    };
+}
+We need to create a single format function that we keep module-private, and include it in each person. That's annoying, and the definition of Person is spreading out.
+
+Classes do the right thing here automatically. So we could declare
+
+export class Person {
+    constructor(name, age, gender) {
+        this.name = name;
+        this.age = age;
+        this.gender = gender;
+    }
+
+    format() {
+        return `${this.name} is ${this.age} years old and ${this.gender}.`
+    }
+}
+and then
+
+let alice = Person('Alice', 44, 'female');
+let bob = Person('Bob', 44, 'male');
+
+alice.format === bob.format  // true
+Classes vs Constructors
+In the end, classes are pretty much just syntactic sugar over prototypes and constructors, so they can do the same things. However, constructors have the same problem as factories — the definition gets spread around. To declare a method with a constructor function you have to patch the constructor after declaring it.
+
+export function Person(name, age, gender) {
+    this.name = name;
+    this.age = age;
+    this.gender = gender;
+}
+
+Person.prototype.format() {
+    return `${this.name} is ${this.age} years old and ${this.gender}.`
+}
+Once again, classes do the same thing in one declaration with less noise.
+
+My Preference: Classes and Factories
+My preference is often to have a class to define the data type — e.g., the Person class above. Then I'll create factory functions for various use cases in the application. So maybe I'd have
+
+export function createBlankPerson() {
+    return new Person('', 0, 'unknown');
+}
+
+export function createRandomPerson() {
+    return new Person(
+        SAMPLE_NAMES[randomInt(0, SAMPLE_NAMES.length)],
+        randomInt(18, 100),
+        SAMPLE_GENDERS[randomInt(0, SAMPLE_GENDERS.length)]
+    );
+}
+This way I have
+
+the Person class to define the shape and methods;
+
+it's constructor to create instances from name, age, and gender; and
+
+the convenient factory methods more more specific use-cases.
+
+
+https://www.reddit.com/r/javascript/comments/yr34u8/comment/ivrxxgt/?share_id=WGXyOMX-Fr9OuNrEhJ07l&utm_content=2&utm_medium=android_app&utm_name=androidcss&utm_source=share&utm_term=1
