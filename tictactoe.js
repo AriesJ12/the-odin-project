@@ -15,8 +15,7 @@ const NUM_PLAYERS = 2;
 const gameSize = 3;
 
 
-function Gameboard() {
-  const gameSize = gameSize;
+function Gameboard(gameSize) {
   let board = Array.from(Array(gameSize), () =>
     new Array(gameSize).fill(State.Blank)
   );
@@ -100,13 +99,12 @@ function Gameboard() {
 }
 
 function Player(name, letter) {
-  let assignLetter = letter;
   let score = 0;
   function announceWinner() {
     score++;
-    console.log(`Player ${name} - ${assignLetter} wins`);
+    console.log(`Player ${name} - ${letter} wins`);
   }
-  return { announceWinner, score, assignLetter };
+  return { announceWinner, score, letter };
 }
 
 function TurnFactory(numPlayers) {
@@ -134,10 +132,10 @@ function TurnFactory(numPlayers) {
 const game = Gameboard(gameSize);
 // players, can add option for what player state
 const players = [Player(1, State.X), Player(2, State.O)];
-const turn = TurnFactory(NUM_PLAYERS);
+let turn = 0;
 
 
-function ScreenHander() {
+function ScreenHander(game,players) {
   const TICTACTOE = document.getElementById("tictactoe");
   const GAME_SIZE = gameSize
   function generateDom() {
@@ -147,26 +145,27 @@ function ScreenHander() {
         let button = document.createElement("button");
         button.textContent = State.Blank
         button.addEventListener("click", () => {
-          button.textContent = players[turn].assignLetter
+          button.textContent = players[turn].letter
           clickHandlerBoard(i, j);
         })
         row.appendChild(button)
       }
+      TICTACTOE.appendChild(row)
     }
   }
   function clickHandlerBoard(x, y) {
-    if (inputPlay(x,y,players[turn].assignLetter) !== gameCondition.InPlay){
+    if (game.inputPlay(x,y,players[turn].letter) !== gameCondition.InPlay){
       players[turn].announceWinner()
     }
     turn++
-    if (turn > players.length) {
+    if (turn >= players.length) {
       turn = 0;
     }
   }
 
-  return {generateDom, updateScreen, clickHandlerBoard}
+  return {generateDom}
 }
 
-const screen = ScreenHander();
+const screen = ScreenHander(game, players, turn);
 screen.generateDom()
 
