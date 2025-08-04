@@ -129,52 +129,40 @@ function TurnFactory(numPlayers) {
   };
 }
 
-function ScreenHander() {
-  const TICTACTOE = document.getElementById("tictactoe");
-  const GAME_SIZE = gameSize
-  function generateDom() {
-    for (let i = 0; i < GAME_SIZE; i++) {
-      let row = document.createElement("div");
-      for (let i = 0; i < GAME_SIZE; i++) {
-        let button = document.createElement("button");
-        button.textContent = State.Blank
-        row.appendChild(button)
-      }
-    }
-  }
-  function updateScreen() {
 
-  }
-  function clickHandlerBoard() {
-
-  }
-
-  return {generateDom, updateScreen, clickHandlerBoard}
-}
 
 const game = Gameboard(gameSize);
 // players, can add option for what player state
 const players = [Player(1, State.X), Player(2, State.O)];
 const turn = TurnFactory(NUM_PLAYERS);
 
-// generate buttons
-// must pass X, and Y
 
-// screen handler
+function ScreenHander() {
+  const TICTACTOE = document.getElementById("tictactoe");
+  const GAME_SIZE = gameSize
+  function generateDom() {
+    for (let i = 0; i < GAME_SIZE; i++) {
+      let row = document.createElement("div");
+      for (let j = 0; j < GAME_SIZE; j++) {
+        let button = document.createElement("button");
+        button.textContent = State.Blank
+        button.addEventListener("click", () => {
+          button.textContent = players[turn].assignLetter
+          clickHandlerBoard(i, j);
+        })
+        row.appendChild(button)
+      }
+    }
+  }
+  function clickHandlerBoard(x, y) {
+    inputPlay(x,y,players[turn].assignLetter)
+    turn++
+    if (turn > players.length) {
+      turn = 0;
+    }
+  }
 
-// check game condition
-while (true) {
-  // reset turn
-  if (turn > players.length) {
-    turn = 0;
-  }
-  turn++;
-  // input moves
-  if (
-    game.inputPlay(1, 2, players[turn].assignLetter) !== gameCondition.InPlay
-  ) {
-    break;
-  }
+  return {generateDom, updateScreen, clickHandlerBoard}
 }
 
 players[turn].announceWinner();
