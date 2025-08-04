@@ -155,7 +155,9 @@ function ScreenHander() {
     }
   }
   function clickHandlerBoard(x, y) {
-    inputPlay(x,y,players[turn].assignLetter)
+    if (inputPlay(x,y,players[turn].assignLetter) !== gameCondition.InPlay){
+      players[turn].announceWinner()
+    }
     turn++
     if (turn > players.length) {
       turn = 0;
@@ -165,4 +167,6 @@ function ScreenHander() {
   return {generateDom, updateScreen, clickHandlerBoard}
 }
 
-players[turn].announceWinner();
+const screen = ScreenHander();
+screen.generateDom()
+
