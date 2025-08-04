@@ -11,10 +11,12 @@ const State = Object.freeze({
   O: "O",
 });
 
-const NUM_PLAYERS =  2
+const NUM_PLAYERS = 2;
+const gameSize = 3;
+
 
 function Gameboard() {
-  const gameSize = 3;
+  const gameSize = gameSize;
   let board = Array.from(Array(gameSize), () =>
     new Array(gameSize).fill(State.Blank)
   );
@@ -127,13 +129,27 @@ function TurnFactory(numPlayers) {
   };
 }
 
-function ScreenHander(){
-  function updateScreen(){
+function ScreenHander() {
+  const TICTACTOE = document.getElementById("tictactoe");
+  const GAME_SIZE = gameSize
+  function generateDom() {
+    for (let i = 0; i < GAME_SIZE; i++) {
+      let row = document.createElement("div");
+      for (let i = 0; i < GAME_SIZE; i++) {
+        let button = document.createElement("button");
+        button.textContent = State.Blank
+        row.appendChild(button)
+      }
+    }
+  }
+  function updateScreen() {
 
   }
-  function clickHandlerBoard(){
-    
+  function clickHandlerBoard() {
+
   }
+
+  return {generateDom, updateScreen, clickHandlerBoard}
 }
 
 const game = Gameboard(gameSize);
@@ -162,5 +178,3 @@ while (true) {
 }
 
 players[turn].announceWinner();
-
-
