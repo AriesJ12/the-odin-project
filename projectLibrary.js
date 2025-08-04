@@ -1,15 +1,19 @@
 const myLibrary = [];
 
-function Book(id, title, author, pages, hasRead) {
-  if (!new.target) {
-    throw Error("You must use the word 'new' operator to call the constructor");
+class Book{
+// function Book(id, title, author, pages, hasRead) {
+  // if (!new.target) {
+  //   throw Error("You must use the word 'new' operator to call the constructor");
+  // }
+  constructor (id, title, author, pages, hasRead) {
+    this.id = id;
+    this.title = title;
+    this.author = author;
+    this.pages = pages;
+    this.hasRead = hasRead;
   }
-  this.id = id;
-  this.title = title;
-  this.author = author;
-  this.pages = pages;
-  this.hasRead = hasRead;
-  this.info = function () {
+  
+  get info() {
     let readText = "has not read yet";
     if (this.hasRead) {
       readText = "has read";
@@ -17,7 +21,7 @@ function Book(id, title, author, pages, hasRead) {
     return `${this.title} by ${this.author}, ${this.pages} pages, ${readText}`;
   };
 
-  this.updateRead = function (hasRead) {
+  set updateRead(hasRead) {
     this.hasRead = hasRead;
   };
 }
