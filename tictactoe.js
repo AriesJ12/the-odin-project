@@ -11,7 +11,7 @@ const State = Object.freeze({
   O: "O",
 });
 
-const NUM_PLAYERS = 2
+const NUM_PLAYERS =  2
 
 function Gameboard() {
   const gameSize = 3;
@@ -27,14 +27,14 @@ function Gameboard() {
   }
 
   function inputPlay(x, y, playedLetter) {
-    if (!isValidInput(x,y)){
-      throw Error("Input Out of Bounds") 
+    if (!isValidInput(x, y)) {
+      throw Error("Input Out of Bounds");
     }
 
     if (board[x][y] == State.Blank) {
       board[x][y] = playedLetter;
     } else {
-      return false
+      return false;
     }
     moveCount++;
 
@@ -87,42 +87,80 @@ function Gameboard() {
       return gameCondition.Draw;
     }
 
-    return gameCondition.InPlay
+    return gameCondition.InPlay;
   }
 
-  function isValidInput(x, y){
-    return (x >= 0 && x < gameSize) && (y >= 0 && y < gameSize);
+  function isValidInput(x, y) {
+    return x >= 0 && x < gameSize && y >= 0 && y < gameSize;
   }
 
-  return { inputPlay, resetBoard};
+  return { inputPlay, resetBoard };
 }
 
 function Player(name, letter) {
   let assignLetter = letter;
   let score = 0;
-  function announceWinner(){
-    score++
+  function announceWinner() {
+    score++;
+    console.log(`Player ${name} - ${assignLetter} wins`);
   }
-  return {announceWinner, score, assignLetter}
+  return { announceWinner, score, assignLetter };
+}
+
+function TurnFactory(numPlayers) {
+  let turn = 0;
+  function nextTurn() {
+    // turn + 1
+    // check if its the same as numPlayers(considers array), then turn it back to 0
+    turn++;
+    if (turn >= numPlayers) {
+      turn = 0;
+    }
+  }
+
+  function getTurn() {
+    return turn;
+  }
+  return {
+    nextTurn,
+    getTurn,
+  };
+}
+
+function ScreenHander(){
+  function updateScreen(){
+
+  }
+  function clickHandlerBoard(){
+    
+  }
 }
 
 const game = Gameboard(gameSize);
 // players, can add option for what player state
-const players = [Player(1, State.X), Player(2, State.O)]
-let turn = 0
+const players = [Player(1, State.X), Player(2, State.O)];
+const turn = TurnFactory(NUM_PLAYERS);
 
+// generate buttons
+// must pass X, and Y
+
+// screen handler
 
 // check game condition
-while (true){
+while (true) {
   // reset turn
   if (turn > players.length) {
-    turn = 0
+    turn = 0;
   }
-  turn++
-  // get player n inputs
+  turn++;
   // input moves
-  if(game.inputPlay(#, #, players[turn].assignLetter) !== gameCondition.InPlay)
-  {
-    break
+  if (
+    game.inputPlay(1, 2, players[turn].assignLetter) !== gameCondition.InPlay
+  ) {
+    break;
   }
 }
+
+players[turn].announceWinner();
+
+
